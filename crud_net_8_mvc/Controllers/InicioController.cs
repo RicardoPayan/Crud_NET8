@@ -15,9 +15,26 @@ namespace crud_net_8_mvc.Controllers
             _contexto = contexto;
         }
 
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             return View(await _contexto.Contacto.ToListAsync());
+        }
+
+        [HttpGet]
+        public IActionResult Crear()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Crear(Contacto contacto)
+        {
+            if (ModelState.IsValid) { 
+                
+            }
+            return View();
         }
 
         public IActionResult Privacy()
