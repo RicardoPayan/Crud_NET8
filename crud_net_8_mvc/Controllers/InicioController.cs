@@ -41,7 +41,58 @@ namespace crud_net_8_mvc.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
+             return View();
+        }
+
+        [HttpGet]
+        public IActionResult Editar(int? id) 
+        {
+            if(id == null)
+            {
+                return NotFound();
+            }
+
+            var contacto = _contexto.Contacto.Find(id);
+            if (contacto == null)
+            {
+                return NotFound();
+            }
+
+            return View(contacto);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Editar(Contacto contacto)
+        {
+            if (ModelState.IsValid)
+            {
+
+                _contexto.Update(contacto);
+                await _contexto.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+
             return View();
+        }
+
+
+        [HttpGet]
+        public IActionResult Detalle(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var contacto = _contexto.Contacto.Find(id);
+            if (contacto == null)
+            {
+                return NotFound();
+            }
+
+            return View(contacto);
         }
 
         public IActionResult Privacy()
