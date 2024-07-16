@@ -29,11 +29,18 @@ namespace crud_net_8_mvc.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Crear(Contacto contacto)
+        public async Task<IActionResult> Crear(Contacto contacto)
         {
-            if (ModelState.IsValid) { 
-                
+            if (ModelState.IsValid) 
+            {
+                //Agregar la fecha y hora actual
+                contacto.FechaCreacion = DateTime.Now;
+
+                _contexto.Contacto.Add(contacto);
+                await _contexto.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
             }
+
             return View();
         }
 
